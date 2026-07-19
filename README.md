@@ -1,10 +1,13 @@
-# IBM Redux Fundamentals Project
+# Paradise Nursery
 
 ## Project Details
 
-This project demonstrates Redux concepts in React applications, including:
-- Redux state management
-- Redux Toolkit
-- Redux Thunk middleware
-- React hooks
-- Form handling
+Paradise Nursery is a plant shop application built using React and Redux.
+
+Features:
+- Landing page with company details
+- Plant product listing
+- Add plants to cart
+- Remove items from cart
+- Update cart quantities
+- Shopping cart management using Redux Toolkit
