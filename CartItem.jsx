@@ -3,118 +3,107 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeItem, updateQuantity } from "./cartSlice";
 
 function CartItem() {
-const cartItems = useSelector((state) => state.cart);
-const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
-const totalPrice = cartItems.reduce(
-(total, item) => total + item.price * item.quantity,
-0
-);
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
-const totalItems = cartItems.reduce(
-(total, item) => total + item.quantity,
-0
-);
+  const increaseQuantity = (item) => {
+    dispatch(
+      updateQuantity({
+        id: item.id,
+        quantity: item.quantity + 1,
+      })
+    );
+  };
 
-const increaseQuantity = (item) => {
-dispatch(
-updateQuantity({
-id: item.id,
-quantity: item.quantity + 1,
-})
-);
-};
+  const decreaseQuantity = (item) => {
+    if (item.quantity > 1) {
+      dispatch(
+        updateQuantity({
+          id: item.id,
+          quantity: item.quantity - 1,
+        })
+      );
+    } else {
+      dispatch(removeItem(item.id));
+    }
+  };
 
-const decreaseQuantity = (item) => {
-if (item.quantity > 1) {
-dispatch(
-updateQuantity({
-id: item.id,
-quantity: item.quantity - 1,
-})
-);
-}
-};
+  const handleCheckout = () => {
+    alert("Thank you for your purchase!");
+  };
 
-const continueShopping = () => {
-document
-.getElementById("products")
-.scrollIntoView({ behavior: "smooth" });
-};
+  return (
+    <div className="cart-page">
+      <h1>Shopping Cart</h1>
 
-return ( <div className="cart-page"> <h1>Shopping Cart</h1>
+      {cartItems.length === 0 ? (
+        <div className="empty-cart">
+          <h2>Your cart is empty</h2>
+          <p>Add some beautiful plants to your cart.</p>
+        </div>
+      ) : (
+        <>
+          {cartItems.map((item) => (
+            <div className="cart-item" key={item.id}>
+              <img
+                src={item.image}
+                alt={item.name}
+                className="cart-item-image"
+              />
 
-```
-  {cartItems.length === 0 ? (
-    <div className="empty-cart">
-      <h2>Your cart is empty</h2>
-      <p>Add some beautiful plants to your cart.</p>
+              <div className="cart-item-details">
+                <h3>{item.name}</h3>
 
-      <button onClick={continueShopping}>
-        Continue Shopping
-      </button>
-    </div>
-  ) : (
-    <>
-      {cartItems.map((item) => (
-        <div className="cart-item" key={item.id}>
-          {item.image && (
-            <img
-              src={item.image}
-              alt={item.name}
-              className="cart-item-image"
-            />
-          )}
+                <p>Price: ${item.price}</p>
 
-          <div className="cart-item-details">
-            <h3>{item.name}</h3>
+                <div className="quantity-controls">
+                  <button onClick={() => decreaseQuantity(item)}>
+                    −
+                  </button>
 
-            <p>Price: ${item.price}</p>
+                  <span>{item.quantity}</span>
 
-            <div className="quantity-controls">
-              <button onClick={() => decreaseQuantity(item)}>
-                −
-              </button>
+                  <button onClick={() => increaseQuantity(item)}>
+                    +
+                  </button>
+                </div>
 
-              <span>{item.quantity}</span>
+                <p>
+                  Item Total: $
+                  {(item.price * item.quantity).toFixed(2)}
+                </p>
 
-              <button onClick={() => increaseQuantity(item)}>
-                +
-              </button>
+                <button
+                  className="delete-button"
+                  onClick={() => dispatch(removeItem(item.id))}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
+          ))}
 
-            <p>
-              Item Total: $
-              {(item.price * item.quantity).toFixed(2)}
-            </p>
+          <div className="cart-summary">
+            <h2>
+              Total: ${totalPrice.toFixed(2)}
+            </h2>
 
             <button
-              className="remove-button"
-              onClick={() => dispatch(removeItem(item.id))}
+              className="checkout-button"
+              onClick={handleCheckout}
             >
-              Remove
+              Checkout
             </button>
           </div>
-        </div>
-      ))}
-
-      <div className="cart-summary">
-        <h3>Total Items: {totalItems}</h3>
-
-        <h2>
-          Total: ${totalPrice.toFixed(2)}
-        </h2>
-
-        <button onClick={continueShopping}>
-          Continue Shopping
-        </button>
-      </div>
-    </>
-  )}
-</div>
-```
-
-);
+        </>
+      )}
+    </div>
+  );
 }
 
 export default CartItem;
