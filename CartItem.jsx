@@ -36,6 +36,12 @@ quantity: item.quantity - 1,
 }
 };
 
+const continueShopping = () => {
+document
+.getElementById("products")
+.scrollIntoView({ behavior: "smooth" });
+};
+
 return ( <div className="cart-page"> <h1>Shopping Cart</h1>
 
 ```
@@ -44,13 +50,7 @@ return ( <div className="cart-page"> <h1>Shopping Cart</h1>
       <h2>Your cart is empty</h2>
       <p>Add some beautiful plants to your cart.</p>
 
-      <button
-        onClick={() =>
-          document
-            .getElementById("products")
-            .scrollIntoView({ behavior: "smooth" })
-        }
-      >
+      <button onClick={continueShopping}>
         Continue Shopping
       </button>
     </div>
@@ -68,6 +68,7 @@ return ( <div className="cart-page"> <h1>Shopping Cart</h1>
 
           <div className="cart-item-details">
             <h3>{item.name}</h3>
+
             <p>Price: ${item.price}</p>
 
             <div className="quantity-controls">
@@ -99,15 +100,12 @@ return ( <div className="cart-page"> <h1>Shopping Cart</h1>
 
       <div className="cart-summary">
         <h3>Total Items: {totalItems}</h3>
-        <h2>Total: ${totalPrice.toFixed(2)}</h2>
 
-        <button
-          onClick={() =>
-            document
-              .getElementById("products")
-              .scrollIntoView({ behavior: "smooth" })
-          }
-        >
+        <h2>
+          Total: ${totalPrice.toFixed(2)}
+        </h2>
+
+        <button onClick={continueShopping}>
           Continue Shopping
         </button>
       </div>
