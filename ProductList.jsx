@@ -1,33 +1,98 @@
+import React from "react";
 import { useDispatch } from "react-redux";
 import { addItem } from "./cartSlice";
 
 function ProductList() {
-
 const dispatch = useDispatch();
 
-const plants=[
- {id:1,name:"Aloe Vera",price:10},
- {id:2,name:"Snake Plant",price:15},
- {id:3,name:"Peace Lily",price:20}
+const plants = [
+{
+id: 1,
+name: "Aloe Vera",
+price: 10,
+category: "Indoor Plants",
+image: "/images/aloe-vera.jpg",
+},
+{
+id: 2,
+name: "Snake Plant",
+price: 15,
+category: "Indoor Plants",
+image: "/images/snake-plant.jpg",
+},
+{
+id: 3,
+name: "Peace Lily",
+price: 20,
+category: "Indoor Plants",
+image: "/images/peace-lily.jpg",
+},
+{
+id: 4,
+name: "Rose Plant",
+price: 12,
+category: "Outdoor Plants",
+image: "/images/rose-plant.jpg",
+},
+{
+id: 5,
+name: "Money Plant",
+price: 18,
+category: "Outdoor Plants",
+image: "/images/money-plant.jpg",
+},
+{
+id: 6,
+name: "Cactus",
+price: 8,
+category: "Succulents",
+image: "/images/cactus.jpg",
+},
 ];
 
-return (
-<div>
-<h1>Plants</h1>
+const handleAddToCart = (plant) => {
+dispatch(
+addItem({
+...plant,
+quantity: 1,
+})
+);
+};
 
-{plants.map((plant)=>(
-<div key={plant.id}>
-<h3>{plant.name}</h3>
-<p>${plant.price}</p>
+return ( <div className="product-page"> <h1>Paradise Nursery Plants</h1>
 
-<button onClick={()=>dispatch(addItem({...plant,quantity:1}))}>
-Add to Cart
-</button>
+```
+  <p>
+    Explore our beautiful collection of indoor, outdoor, and succulent
+    plants.
+  </p>
 
+  <div className="product-grid">
+    {plants.map((plant) => (
+      <div className="product-card" key={plant.id}>
+        <img
+          src={plant.image}
+          alt={plant.name}
+          className="product-image"
+        />
+
+        <h2>{plant.name}</h2>
+
+        <p>Category: {plant.category}</p>
+
+        <h3>${plant.price}</h3>
+
+        <button
+          onClick={() => handleAddToCart(plant)}
+        >
+          Add to Cart
+        </button>
+      </div>
+    ))}
+  </div>
 </div>
-))}
+```
 
-</div>
 );
 }
 
